@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: bkg
+    uniqueID: 3245186203
+    locked: 0
+  - name: labyrinthe
+    uniqueID: 1155159637
+    locked: 0
+  - name: over-laby
+    uniqueID: 832204589
+    locked: 0
+  - name: path-info
+    uniqueID: 1293084783
+    locked: 0
+  - name: characters
+    uniqueID: 3840033731
+    locked: 0
+  - name: UI
+    uniqueID: 5033003
+    locked: 0

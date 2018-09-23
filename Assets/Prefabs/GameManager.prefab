@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1607901591056128}
+  m_IsPrefabAsset: 1
+--- !u!1 &1607901591056128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4573041377640326}
+  - component: {fileID: 114253253057583500}
+  - component: {fileID: 114913409695215890}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4573041377640326
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1607901591056128}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114253253057583500
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1607901591056128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ffaa70c4717664984ada279a9c0a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labSize: 10
+  trace: {fileID: 0}
+  tilesPrefab:
+  - {fileID: 114249776597036944, guid: 0257682fe83bd624c8390c491732fe0d, type: 2}
+  - {fileID: 114183500844549788, guid: 1900ad5150023f34684d47d81824fc9d, type: 2}
+  - {fileID: 114865362219972380, guid: 5efb017936123b94aa06266e22d73dc9, type: 2}
+  - {fileID: 114301810982285860, guid: 5ce59f0047d72df4a90c23b288338176, type: 2}
+  - {fileID: 114537202542982894, guid: aa0cae3e488c80d4598c50fc104e4fc5, type: 2}
+  - {fileID: 114490108647165194, guid: 3050c336a1406b247a7cf89dbd528f0b, type: 2}
+  - {fileID: 114891938969978470, guid: dc97b7a9924a0724fb8eb02d0cc47664, type: 2}
+  - {fileID: 114601487182079970, guid: d265f09a739953e4b8cc6dfad59ddfcc, type: 2}
+  - {fileID: 114104129645602738, guid: 65e2f381267a58f46b8c5d40d181871f, type: 2}
+  - {fileID: 114902326445665172, guid: 2906e8a69c35a904c885982f1eef0c5b, type: 2}
+  - {fileID: 114579006893292948, guid: 44d4cf9020b212d41801918783974044, type: 2}
+  - {fileID: 114579006893292948, guid: 44d4cf9020b212d41801918783974044, type: 2}
+  - {fileID: 114579006893292948, guid: 44d4cf9020b212d41801918783974044, type: 2}
+  - {fileID: 114579006893292948, guid: 44d4cf9020b212d41801918783974044, type: 2}
+  - {fileID: 114579006893292948, guid: 44d4cf9020b212d41801918783974044, type: 2}
+  - {fileID: 114579006893292948, guid: 44d4cf9020b212d41801918783974044, type: 2}
+  - {fileID: 114579006893292948, guid: 44d4cf9020b212d41801918783974044, type: 2}
+  - {fileID: 114579006893292948, guid: 44d4cf9020b212d41801918783974044, type: 2}
+  - {fileID: 114579006893292948, guid: 44d4cf9020b212d41801918783974044, type: 2}
+  - {fileID: 114579006893292948, guid: 44d4cf9020b212d41801918783974044, type: 2}
+  skulls:
+  - {fileID: 114721476831217986, guid: d6c60a9f15497fa4794641e1feef8050, type: 2}
+  - {fileID: 114941621853013296, guid: b47b56aa7da66394cb7d03d886124cbc, type: 2}
+  - {fileID: 114148277007053076, guid: f415de7034dde9949b1bc204689edc82, type: 2}
+  - {fileID: 114314369289769754, guid: db6be263dfffb444ca68d2d78cc9bba6, type: 2}
+  - {fileID: 114503747951132578, guid: 4936ff5c9d02fe8449702ade36fc3c50, type: 2}
+  - {fileID: 114969592239302892, guid: 678c810be42887b40b415585ca12c2fe, type: 2}
+  doingSetup: 1
+--- !u!114 &114913409695215890
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1607901591056128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86a52dc0a06d51c408eb840c872671cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
