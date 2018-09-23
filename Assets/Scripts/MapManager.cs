@@ -26,11 +26,11 @@ public class MapManager : MonoBehaviour
     //Size info
     float tileScale;
     float tileSize;
- //   float skullScale;
+    float skullScale;
 
     //Instantiated tile map
     List<Tile> labyrinthTiles = new List<Tile>();
-    //List<Skull> labyrinthSkulls = new List<Skull>();
+    List<Skull> labyrinthSkulls = new List<Skull>();
 
     //For gameManagement
     [HideInInspector] public bool doingSetup = true;
@@ -44,7 +44,7 @@ public class MapManager : MonoBehaviour
         tileSize = tilesPrefab[0].GetComponent<SpriteRenderer>().bounds.size.x / labSize;
         InitializeTilesSubLists();
 
-   //     skullScale = skulls[0].GetComponent<Transform>().localScale.x / labSize;
+        skullScale = skulls[0].GetComponent<Transform>().localScale.x / labSize;
 
         doingSetup = false;
 
@@ -116,7 +116,7 @@ public class MapManager : MonoBehaviour
                     tileRef = FindRandomTile();
 
                 //Adding random difficulty to tile
-                //Skull skullRef = skulls[Random.Range(0, 1) + Random.Range(0, 1) + Random.Range(0, skulls.Length - 2)];
+                Skull skullRef = skulls[Random.Range(0,skulls.Length)]; 
 
                 //Instantiating and resizing
                 //Tile
@@ -125,12 +125,12 @@ public class MapManager : MonoBehaviour
                 tile.GetComponent<Transform>().localScale = new Vector3(tileScale, tileScale);
 
                 //Skulls
-                //Skull skull = Instantiate(skullRef, pos, Quaternion.identity);
-                //skull.GetComponent<Transform>().localScale = new Vector3(skullScale, skullScale);
+                Skull skull = Instantiate(skullRef, pos, Quaternion.identity);
+                skull.GetComponent<Transform>().localScale = new Vector3(skullScale, skullScale);
 
                 //Keeping tile map info
                 labyrinthTiles.Add(tileRef);
-                //labyrinthSkulls.Add(skull);
+                labyrinthSkulls.Add(skull);
             }
         }
     }
@@ -153,7 +153,15 @@ public class MapManager : MonoBehaviour
                     int leftPos = currentPos - 1;
                     Tile leftTile = labyrinthTiles[leftPos];
                     if (currentTile.left && leftTile.right)
-                        edges.Add(new Edge(nodes[currentPos], nodes[leftPos], 1));
+                    {
+                        //Directed graph, bilateral with 2 differents difficulty depending on the target tile (number of skull)
+                        int difficulty = labyrinthSkulls[leftPos].difficulty;
+                        edges.Add(new Edge(nodes[currentPos], nodes[leftPos], difficulty));
+
+                        difficulty = labyrinthSkulls[currentPos].difficulty;
+                        edges.Add(new Edge(nodes[leftPos], nodes[currentPos], difficulty));
+                    }
+                        
                 }
 
                 if (y > 0)
@@ -161,7 +169,14 @@ public class MapManager : MonoBehaviour
                     int downPos = currentPos - labSize;
                     Tile downTile = labyrinthTiles[downPos];
                     if (currentTile.down && downTile.up)
-                        edges.Add(new Edge(nodes[currentPos], nodes[downPos], 1));
+                    {
+                        int difficulty = labyrinthSkulls[downPos].difficulty;
+                        edges.Add(new Edge(nodes[currentPos], nodes[downPos], difficulty));
+
+                        difficulty = labyrinthSkulls[currentPos].difficulty;
+                        edges.Add(new Edge(nodes[downPos], nodes[currentPos], difficulty));
+                    }
+                        
                 }
             }
         }
@@ -170,7 +185,7 @@ public class MapManager : MonoBehaviour
         Node start = nodes[0];
 
         //Setting graph and calculing shortest path
-        DirectedGraph graph = new DirectedGraph(nodes, edges, false);
+        DirectedGraph graph = new DirectedGraph(nodes, edges, true);
 
         Stack<Node> path = new Stack<Node>();
         GraphOperation.getShortestPath(graph, start, target, out path);

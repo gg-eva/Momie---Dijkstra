@@ -162,6 +162,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114253253057583500, guid: 393c3c8e4136c5143b3f01767a841371,
+        type: 2}
+      propertyPath: skulls.Array.size
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 4573041377640326, guid: 393c3c8e4136c5143b3f01767a841371, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -199,6 +204,54 @@ Prefab:
       propertyPath: trace
       value: 
       objectReference: {fileID: 458370504}
+    - target: {fileID: 114253253057583500, guid: 393c3c8e4136c5143b3f01767a841371,
+        type: 2}
+      propertyPath: skulls.Array.data[6]
+      value: 
+      objectReference: {fileID: 114721476831217986, guid: d6c60a9f15497fa4794641e1feef8050,
+        type: 2}
+    - target: {fileID: 114253253057583500, guid: 393c3c8e4136c5143b3f01767a841371,
+        type: 2}
+      propertyPath: skulls.Array.data[7]
+      value: 
+      objectReference: {fileID: 114721476831217986, guid: d6c60a9f15497fa4794641e1feef8050,
+        type: 2}
+    - target: {fileID: 114253253057583500, guid: 393c3c8e4136c5143b3f01767a841371,
+        type: 2}
+      propertyPath: skulls.Array.data[8]
+      value: 
+      objectReference: {fileID: 114721476831217986, guid: d6c60a9f15497fa4794641e1feef8050,
+        type: 2}
+    - target: {fileID: 114253253057583500, guid: 393c3c8e4136c5143b3f01767a841371,
+        type: 2}
+      propertyPath: skulls.Array.data[9]
+      value: 
+      objectReference: {fileID: 114941621853013296, guid: b47b56aa7da66394cb7d03d886124cbc,
+        type: 2}
+    - target: {fileID: 114253253057583500, guid: 393c3c8e4136c5143b3f01767a841371,
+        type: 2}
+      propertyPath: skulls.Array.data[10]
+      value: 
+      objectReference: {fileID: 114941621853013296, guid: b47b56aa7da66394cb7d03d886124cbc,
+        type: 2}
+    - target: {fileID: 114253253057583500, guid: 393c3c8e4136c5143b3f01767a841371,
+        type: 2}
+      propertyPath: skulls.Array.data[11]
+      value: 
+      objectReference: {fileID: 114148277007053076, guid: f415de7034dde9949b1bc204689edc82,
+        type: 2}
+    - target: {fileID: 114253253057583500, guid: 393c3c8e4136c5143b3f01767a841371,
+        type: 2}
+      propertyPath: skulls.Array.data[12]
+      value: 
+      objectReference: {fileID: 114148277007053076, guid: f415de7034dde9949b1bc204689edc82,
+        type: 2}
+    - target: {fileID: 114253253057583500, guid: 393c3c8e4136c5143b3f01767a841371,
+        type: 2}
+      propertyPath: skulls.Array.data[13]
+      value: 
+      objectReference: {fileID: 114314369289769754, guid: db6be263dfffb444ca68d2d78cc9bba6,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 393c3c8e4136c5143b3f01767a841371, type: 2}
   m_IsPrefabAsset: 0
