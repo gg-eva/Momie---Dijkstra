@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Dijkstra;
 
@@ -8,11 +9,15 @@ public class MapManager : MonoBehaviour
 {
 
     public int labSize = 5;     //Number of tiles of one side (square)
-    public Trace traceRef;         //Trace the shortest path
+    public Trace traceRef;      //Trace the shortest path
     public Tile[] tilesPrefab;  //Each possible tile from assets
-    public Skull[] skulls; //Getting skull sprites for difficulty of paths
-    public Player playerRef;   //Player
-    public Enemy enemyRef;     //Enemy
+    public Skull[] skulls;      //Getting skull sprites for difficulty of paths
+    public Player playerRef;    //Player
+    public Enemy enemyRef;      //Enemy
+    public Skull gameOverSkull; //GameOver display
+
+    public Text playerTurnsText;
+    public Text enemyTurnsText;
 
     //Sub list to make a better labyrinth
     List<Tile> tilesBorderUp = new List<Tile>();
@@ -40,9 +45,15 @@ public class MapManager : MonoBehaviour
     Player player;
     Enemy enemy;
     Trace trace;
+    Skull gameOver;
 
     //For gameManagement
-    [HideInInspector] public bool doingSetup = true;
+    [HideInInspector] public bool isGameOver = true;
+
+    //For movement
+    int enemyNextPos;
+    int enemyNextDifficulty;
+    DirectedGraph graph = new DirectedGraph();
 
     //Before any start
     private void Awake()
@@ -55,12 +66,9 @@ public class MapManager : MonoBehaviour
         skullScale = skulls[0].GetComponent<Transform>().localScale.x / labSize;
         playerScale = playerRef.GetComponent<Transform>().localScale.x / labSize;
         enemyScale = enemyRef.GetComponent<Transform>().localScale.x / labSize;
-    }
 
-    // Use this for initialization
-    void Start()
-    {
-        doingSetup = false;
+        playerTurnsText.text = "";
+        enemyTurnsText.text = "";
     }
 
     void InitializeTilesSubLists()
@@ -93,7 +101,6 @@ public class MapManager : MonoBehaviour
 
     public void CleanMap()
     {
-
         //Instantiated tile map
         //Destroy objects
         foreach (Tile tile in labyrinthTiles)
@@ -107,9 +114,14 @@ public class MapManager : MonoBehaviour
         labyrinthSkulls.Clear();
 
         //Instantiated player, enemy and trace
-        Destroy(player.gameObject);
-        Destroy(enemy.gameObject);
-        Destroy(trace.gameObject);
+        if(player != null)
+            Destroy(player.gameObject);
+        if (enemy != null)
+            Destroy(enemy.gameObject);
+        if (trace != null)
+            Destroy(trace.gameObject);
+        if (gameOver != null)
+            Destroy(gameOver.gameObject);
     }
 
     //Initialize a random map
@@ -176,9 +188,13 @@ public class MapManager : MonoBehaviour
         pos2 = GetTilePosFromIndex(labSize*labSize - 1);
         enemy = Instantiate(enemyRef, pos2, Quaternion.identity);
         enemy.GetComponent<Transform>().localScale = new Vector3(enemyScale, enemyScale);
+        enemyNextPos = enemy.pos;
+        enemyNextDifficulty = 0;
 
         //Trace
         trace = Instantiate(traceRef);
+
+        isGameOver = false;
     }
 
 
@@ -191,7 +207,6 @@ public class MapManager : MonoBehaviour
         {
             for (int x = 0; x < labSize; ++x)
             {
-
                 int currentPos = GetTileIndexFromCoordinates(new Vector2Int(x, y));
                 nodes.Add(new Node(currentPos.ToString()));
                 Tile currentTile = labyrinthTiles[currentPos];
@@ -230,25 +245,35 @@ public class MapManager : MonoBehaviour
         }
 
         Node start = nodes[enemy.pos];
-        Debug.Log("enemy pos " + enemy.pos);
         Node target = nodes[player.pos];
-        Debug.Log("player pos " + player.pos);
 
         //Setting graph and calculing shortest path
-        DirectedGraph graph = new DirectedGraph(nodes, edges, true);
+        graph = new DirectedGraph(nodes, edges, true);
 
         Stack<Node> path = new Stack<Node>();
         GraphOperation.getShortestPath(graph, start, target, out path);
 
         //Calculing path for charcter and tracing it
         List<Vector3> vectorPath = new List<Vector3>();
+
+        int pathCountMax = path.Count;
         while (path.Count != 0)
         {
             Node node = path.Pop();
             int nodeInt = -1;
             if (System.Int32.TryParse(node.label, out nodeInt))
+            {
                 vectorPath.Add(GetTilePosFromIndex(nodeInt));
-        }
+
+                if(path.Count == pathCountMax - 2)
+                {
+                    //Next move if more than 2 nodes
+                    enemyNextPos = nodeInt;
+                    enemyNextDifficulty = labyrinthSkulls[nodeInt].difficulty;
+                }
+            }     
+        }       
+
         trace.SetPath(vectorPath);
     }
 
@@ -288,5 +313,71 @@ public class MapManager : MonoBehaviour
         int tileChoice = Random.Range(0, tilesPrefab.Length);
         Tile tile = tilesPrefab[tileChoice];
         return tile;
+    }
+
+    public void NewTurn()
+    {
+        if (player.turnsToWait <=0)
+        {
+            if(TryMovePlayer())
+            {
+                GraphFromMap();
+            } 
+        }
+        else
+        {
+            player.turnsToWait--;
+            enemy.turnsToWait--;
+            if (enemy.turnsToWait <= 0)
+            {
+                MoveEnemy();
+                GraphFromMap();
+            }
+        }
+
+        playerTurnsText.text = "Player : " + player.turnsToWait;
+        enemyTurnsText.text = "Enemy : " + enemy.turnsToWait;
+
+        if (enemy.pos == player.pos)
+            GameOver();
+    }
+
+    private bool TryMovePlayer()
+    {
+        bool moved = false;
+
+        if(player.moveAttempt != player.pos && player.moveAttempt >= 0 && player.moveAttempt < labSize*labSize)
+        {
+            Edge edge;
+
+            if(graph.AreConnected(player.pos.ToString(), player.moveAttempt.ToString(), out edge))
+            {
+                player.pos = player.moveAttempt;
+                player.turnsToWait = labyrinthSkulls[player.moveAttempt].difficulty;
+
+                player.transform.position = GetTilePosFromIndex(player.pos);
+                moved = true;
+            }
+
+        }
+
+        return moved;
+    }
+
+    private void MoveEnemy()
+    {
+        enemy.pos = enemyNextPos;
+        enemy.turnsToWait = enemyNextDifficulty;
+
+        enemy.transform.position = GetTilePosFromIndex(enemy.pos);
+    }
+
+    public void GameOver()
+    {
+        isGameOver = true;
+        gameOver = Instantiate(gameOverSkull);
+
+        playerTurnsText.text = "";
+        enemyTurnsText.text = "";
     }
 }

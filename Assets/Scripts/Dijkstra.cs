@@ -104,6 +104,36 @@ namespace Dijkstra
             graphMap[node] = edges;
         }
 
+        public bool AreConnected(String src, String end, out Edge connection)
+        {
+            connection = null;
+
+            Node nodeSrc = null;
+
+            foreach(Node node in graphMap.Keys)
+            {
+                if(node.label == src)
+                {
+                    nodeSrc = node;
+                    break;
+                }
+            }
+
+            if (nodeSrc == null)
+                return false;
+
+            foreach(Edge edge in graphMap[nodeSrc])
+            {
+                if(edge.end.label == end)
+                {
+                    connection = edge;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public override string ToString()
         {
             string result = "[ ";

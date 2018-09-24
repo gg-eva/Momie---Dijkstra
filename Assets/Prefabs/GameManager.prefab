@@ -93,7 +93,11 @@ MonoBehaviour:
   playerRef: {fileID: 114887579046054876, guid: 9e4730b765cafc74693d2d10b8c1f3bc,
     type: 2}
   enemyRef: {fileID: 114469990556651210, guid: 208b3b72e8949e94e865776cf4379a6c, type: 2}
-  doingSetup: 1
+  gameOverSkull: {fileID: 114429773745365488, guid: ed299e53934f5c24897f263fd7d1b6bd,
+    type: 2}
+  playerTurnsText: {fileID: 0}
+  enemyTurnsText: {fileID: 0}
+  isGameOver: 1
 --- !u!114 &114913409695215890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -105,3 +109,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a52dc0a06d51c408eb840c872671cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnsDelay: 1

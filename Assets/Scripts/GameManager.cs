@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-    
 
+    public float turnsDelay = 0.5f;
     private MapManager mapManager;
 
     private void Awake()
@@ -23,14 +23,30 @@ public class GameManager : MonoBehaviour {
         //Initialize random map
         mapManager.InitializeRandomMap();
         mapManager.GraphFromMap();
+        StartCoroutine("NewTurn");
+
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            StopCoroutine("NewTurn");
             mapManager.CleanMap();
             InitGame();
         }
+        else if(Input.GetKeyDown(KeyCode.G))
+        {
+            mapManager.GameOver();
+        }
+    }
+
+    IEnumerator NewTurn()
+    {
+        while(!mapManager.isGameOver)
+        {
+            mapManager.NewTurn();
+            yield return new WaitForSeconds(turnsDelay);
+        } 
     }
 }
