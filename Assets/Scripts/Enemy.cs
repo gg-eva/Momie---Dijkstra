@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
+    public MapManager mapManager;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [HideInInspector] public int pos;
+
+    private void Awake()
+    {
+        mapManager = GameObject.Find("GameManager").GetComponent<MapManager>();
+        pos = mapManager.labSize * mapManager.labSize - 1;
+    }
 }

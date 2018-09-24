@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114913409695215890}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26ffaa70c4717664984ada279a9c0a9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  labSize: 5
-  trace: {fileID: 0}
+  labSize: 8
+  traceRef: {fileID: 114381792231356452, guid: 1460adf2d1c1d4944ad63d6a549e173f, type: 2}
   tilesPrefab:
   - {fileID: 114579006893292948, guid: 44d4cf9020b212d41801918783974044, type: 2}
   - {fileID: 114579006893292948, guid: 44d4cf9020b212d41801918783974044, type: 2}

@@ -8,7 +8,7 @@ public class MapManager : MonoBehaviour
 {
 
     public int labSize = 5;     //Number of tiles of one side (square)
-    public Trace trace;         //Trace the shortest path
+    public Trace traceRef;         //Trace the shortest path
     public Tile[] tilesPrefab;  //Each possible tile from assets
     public Skull[] skulls; //Getting skull sprites for difficulty of paths
     public Player playerRef;   //Player
@@ -39,6 +39,7 @@ public class MapManager : MonoBehaviour
     //Instantiate
     Player player;
     Enemy enemy;
+    Trace trace;
 
     //For gameManagement
     [HideInInspector] public bool doingSetup = true;
@@ -90,6 +91,27 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    public void CleanMap()
+    {
+
+        //Instantiated tile map
+        //Destroy objects
+        foreach (Tile tile in labyrinthTiles)
+            Destroy(tile.gameObject);
+
+        foreach (Skull skull in labyrinthSkulls)
+            Destroy(skull.gameObject);
+
+        //Empty list
+        labyrinthTiles.Clear();
+        labyrinthSkulls.Clear();
+
+        //Instantiated player, enemy and trace
+        Destroy(player.gameObject);
+        Destroy(enemy.gameObject);
+        Destroy(trace.gameObject);
+    }
+
     //Initialize a random map
     public void InitializeRandomMap()
     {
@@ -139,7 +161,7 @@ public class MapManager : MonoBehaviour
                 skull.GetComponent<Transform>().localScale = new Vector3(skullScale, skullScale);
 
                 //Keeping tile map info
-                labyrinthTiles.Add(tileRef);
+                labyrinthTiles.Add(tile);
                 labyrinthSkulls.Add(skull);
             }
         }
@@ -154,6 +176,9 @@ public class MapManager : MonoBehaviour
         pos2 = GetTilePosFromIndex(labSize*labSize - 1);
         enemy = Instantiate(enemyRef, pos2, Quaternion.identity);
         enemy.GetComponent<Transform>().localScale = new Vector3(enemyScale, enemyScale);
+
+        //Trace
+        trace = Instantiate(traceRef);
     }
 
 
@@ -204,8 +229,10 @@ public class MapManager : MonoBehaviour
             }
         }
 
-        Node start = nodes[labSize * labSize - 1];
-        Node target = nodes[0];
+        Node start = nodes[enemy.pos];
+        Debug.Log("enemy pos " + enemy.pos);
+        Node target = nodes[player.pos];
+        Debug.Log("player pos " + player.pos);
 
         //Setting graph and calculing shortest path
         DirectedGraph graph = new DirectedGraph(nodes, edges, true);
