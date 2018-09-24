@@ -11,6 +11,8 @@ public class MapManager : MonoBehaviour
     public Trace trace;         //Trace the shortest path
     public Tile[] tilesPrefab;  //Each possible tile from assets
     public Skull[] skulls; //Getting skull sprites for difficulty of paths
+    public Player playerRef;   //Player
+    public Enemy enemyRef;     //Enemy
 
     //Sub list to make a better labyrinth
     List<Tile> tilesBorderUp = new List<Tile>();
@@ -27,17 +29,22 @@ public class MapManager : MonoBehaviour
     float tileScale;
     float tileSize;
     float skullScale;
+    float playerScale;
+    float enemyScale;
 
     //Instantiated tile map
     List<Tile> labyrinthTiles = new List<Tile>();
     List<Skull> labyrinthSkulls = new List<Skull>();
 
+    //Instantiate
+    Player player;
+    Enemy enemy;
+
     //For gameManagement
     [HideInInspector] public bool doingSetup = true;
 
-
-    // Use this for initialization
-    void Start()
+    //Before any start
+    private void Awake()
     {
         //Initialize useful variables
         tileScale = tilesPrefab[0].GetComponent<Transform>().localScale.x / labSize;
@@ -45,11 +52,14 @@ public class MapManager : MonoBehaviour
         InitializeTilesSubLists();
 
         skullScale = skulls[0].GetComponent<Transform>().localScale.x / labSize;
+        playerScale = playerRef.GetComponent<Transform>().localScale.x / labSize;
+        enemyScale = enemyRef.GetComponent<Transform>().localScale.x / labSize;
+    }
 
+    // Use this for initialization
+    void Start()
+    {
         doingSetup = false;
-
-        InitializeRandomMap();
-        GraphFromMap();
     }
 
     void InitializeTilesSubLists()
@@ -133,7 +143,20 @@ public class MapManager : MonoBehaviour
                 labyrinthSkulls.Add(skull);
             }
         }
+
+
+        //Player
+        Vector3 pos2 = GetTilePosFromIndex(0);
+        player = Instantiate(playerRef, pos2, Quaternion.identity);
+        player.GetComponent<Transform>().localScale = new Vector3(playerScale, playerScale);
+
+        //Enemy
+        pos2 = GetTilePosFromIndex(labSize*labSize - 1);
+        enemy = Instantiate(enemyRef, pos2, Quaternion.identity);
+        enemy.GetComponent<Transform>().localScale = new Vector3(enemyScale, enemyScale);
     }
+
+
 
     public void GraphFromMap()
     {
@@ -181,8 +204,8 @@ public class MapManager : MonoBehaviour
             }
         }
 
-        Node target = nodes[labSize * labSize - 1];
-        Node start = nodes[0];
+        Node start = nodes[labSize * labSize - 1];
+        Node target = nodes[0];
 
         //Setting graph and calculing shortest path
         DirectedGraph graph = new DirectedGraph(nodes, edges, true);

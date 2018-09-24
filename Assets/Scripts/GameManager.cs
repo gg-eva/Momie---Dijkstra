@@ -17,23 +17,26 @@ public class GameManager : MonoBehaviour {
     private MapManager mapManager;
     private bool doingSetup = true;
 
-
-    void Start()
+    private void Awake()
     {
         //Get MapManager
         mapManager = GetComponent<MapManager>();
-        //while (mapManager.doingSetup);
+    }
+
+    void Start()
+    {
         InitGame();
     }
 
     void InitGame()
     {
         doingSetup = true;
-        //Initialize random map
-        //mapManager.InitializeRandomMap();
 
-        //TOOD
-        //mapManager.GraphFromMap();
+        //Initialize random map
+        mapManager.InitializeRandomMap();
+
+
+        mapManager.GraphFromMap();
     }
 
     //void Update()
