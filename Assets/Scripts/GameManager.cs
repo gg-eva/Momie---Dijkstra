@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour {
         {
             mapManager.GameOver();
         }
+        else if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     IEnumerator NewTurn()
